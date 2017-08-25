@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:head>
+	<title>Sistema de Locação</title>
+</h:head>
+
+<ui:composition template="_template.xhtml">
+
+	<ui:define name="conteudo">
+
+		<p:fieldset legend="Locação de Veículos">
+
+			<h:form id="form-cadastro">
+
+				<p:growl id="growl" showDetail="true" sticky="true" life="2000" />
+
+				<p:commandButton id="btnCadastrar" value="Novo Veículo"
+					actionListener="#{veiculoBean.add}"
+					onclick="PF('modalAlterar').show();" update=":form-modal"
+					icon="fa fa-plus"
+					style="position:absolute; right: 30px; top: 100px;" />
+
+			</h:form>
+
+			<h:form id="veiculos-cadastradas">
+
+				<p:panel header="Veículos">
+					<p:messages />
+
+					<p:dataTable var="veiculo" value="#{veiculoBean.veiculos}">
+
+						<p:column headerText="Placa" sortBy="#{veiculo.placa}"
+							filterBy="#{veiculo.placa}" filterMatchMode="startsWith">
+							<h:outputText value="#{veiculo.placa}" />
+						</p:column>
+
+						<p:column headerText="Marca" sortBy="#{veiculo.marca}">
+							<h:outputText value="#{veiculo.marca}" />
+						</p:column>
+
+						<p:column headerText="Modelo">
+							<h:outputText value="#{veiculo.modelo}" />
+						</p:column>
+
+						<p:column headerText="A">
+							<p:commandButton id="btnAlterar" value="Alterar"
+								icon="fa fa-pencil"
+								actionListener="#{veiculoBean.update(veiculo)}"
+								onclick="PF('modalAlterar').show();" update=":form-modal"
+								process="@this" />
+						</p:column>
+
+						<p:column headerText="R">
+							<p:commandButton value="Remover"
+								actionListener="#{veiculoBean.remove(veiculo)}"
+								icon="fa fa-remove" update=":veiculos-cadastradas">
+								<p:confirm header="Alerta"
+									message="Tem certeza que deseja remover esse veículo?"
+									icon="ui-icon-alert" />
+							</p:commandButton>
+
+							<p:confirmDialog global="true" showEffect="fade"
+								hideEffect="fade">
+								<p:commandButton value="Sim" type="button"
+									styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+								<p:commandButton value="Não" type="button"
+									styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+							</p:confirmDialog>
+						</p:column>
+					</p:dataTable>
+
+				</p:panel>
+
+			</h:form>
+
+		</p:fieldset>
+
+		<p:dialog header="Veículos" widgetVar="modalAlterar" modal="true"
+			height="300" width="400">
+
+			<h:form id="form-modal">
+				<h:panelGrid columns="2" columnClasses="label, value">
+					<p:outputLabel value="Placa:" for="placa" />
+					<p:inputText id="placa" value="#{veiculoBean.veiculo.placa}" />
+
+					<p:outputLabel value="Chassi:" for="chassi" />
+					<p:inputText id="chassi" value="#{veiculoBean.veiculo.chassi}" />
+
+					<p:outputLabel value="Renavam:" for="renavam" />
+					<p:inputText id="renavam" value="#{veiculoBean.veiculo.renavam}" />
+
+					<p:outputLabel value="Marca:" for="marca" />
+					<p:inputText id="marca" value="#{veiculoBean.veiculo.marca}" />
+
+					<p:outputLabel value="Modelo:" for="modelo" />
+					<p:inputText id="modelo" value="#{veiculoBean.veiculo.modelo}" />
+
+					<p:outputLabel value="Ano:" for="ano" />
+					<p:inputText id="ano" value="#{veiculoBean.veiculo.ano}" />
+					
+					<p:outputLabel value="Valor/h:" for="valorHora" />
+					<p:inputText id="valorHora" value="#{veiculoBean.veiculo.valorHora}">
+					  <f:converter converterId="valorConverter" />
+					</p:inputText>
+
+					<p:commandButton value="Salvar" id="btn-salvar"
+						styleClass="ui-priority-primary" action="#{veiculoBean.salvar}"
+						update="@form" process="@form" />
+				</h:panelGrid>
+			</h:form>
+
+
+		</p:dialog>
+
+
+	</ui:define>
+
+</ui:composition>
+
+</html>

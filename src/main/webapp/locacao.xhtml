@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:head>
+	<title>Sistema de Locação</title>
+</h:head>
+
+<ui:composition template="_template.xhtml">
+
+	<ui:define name="conteudo">
+
+		<p:fieldset legend="Locação de Veículos">
+
+			<h:form id="form-cadastro">
+				<p:growl id="growl" showDetail="true" sticky="true" life="2000" />
+			</h:form>
+
+			<h:form id="locacoes-cadastradas">
+
+				<p:panel header="Locações">
+					<p:messages />
+
+					<p:dataTable var="locacao" value="#{locacaoBean.locacoes}">
+
+						<p:column headerText="Cliente" sortBy="#{locacao.pessoa.nome}"
+							filterBy="#{locacao.pessoa.nome}" filterMatchMode="startsWith">
+							<h:outputText value="#{locacao.pessoa.nome}" />
+						</p:column>
+
+						<p:column headerText="Veículo" sortBy="#{locacao.veiculo.modelo}">
+							<h:outputText value="#{locacao.veiculo.modelo}" />
+						</p:column>
+
+						<p:column headerText="Saída">
+							<h:outputText value="#{locacao.dataSaida}" >
+							   <f:converter converterId="dataConverter" />
+							</h:outputText>
+						</p:column>
+						
+						<p:column headerText="Retorno">
+							<h:outputText value="#{locacao.dataRetorno}" >
+							    <f:converter converterId="dataConverter" />
+							</h:outputText>
+						</p:column>
+						
+						<p:column headerText="Valor">
+							<h:outputText value="#{locacao.valor}">
+							  <f:converter converterId="valorConverter" />
+							</h:outputText>
+						</p:column>
+					</p:dataTable>
+
+				</p:panel>
+
+			</h:form>
+
+		</p:fieldset>
+
+	</ui:define>
+
+</ui:composition>
+
+</html>
