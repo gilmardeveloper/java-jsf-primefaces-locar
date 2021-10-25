@@ -1,8 +1,8 @@
 package br.com.slv.models;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
-import javax.money.MonetaryAmount;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,7 +22,7 @@ public class Veiculo implements Serializable {
 	private String marca;
 	private String modelo;
 	private String ano;
-	private MonetaryAmount valorHora;
+	private BigDecimal valorHora;
 
 	public Long getId() {
 		return id;
@@ -80,11 +80,11 @@ public class Veiculo implements Serializable {
 		this.ano = ano;
 	}
 
-	public MonetaryAmount getValorHora() {
+	public BigDecimal getValorHora() {
 		return valorHora;
 	}
 
-	public void setValorHora(MonetaryAmount valorHora) {
+	public void setValorHora(BigDecimal valorHora) {
 		this.valorHora = valorHora;
 	}
 

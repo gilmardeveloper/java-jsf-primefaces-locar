@@ -1,41 +1,31 @@
 package br.com.slv.converters;
 
-import java.util.Locale;
-
-import javax.money.Monetary;
-import javax.money.MonetaryAmount;
-import javax.money.format.AmountFormatQueryBuilder;
-import javax.money.format.MonetaryAmountFormat;
-import javax.money.format.MonetaryFormats;
-
-import org.javamoney.moneta.format.CurrencyStyle;
+import java.math.BigDecimal;
 
 public class ValorConverter {
 
-	public MonetaryAmount toMoney(String valor) {
+	public BigDecimal toMoney(String valor) {
 
-		MonetaryAmountFormat format = MonetaryFormats
-				.getAmountFormat(AmountFormatQueryBuilder.of(Locale.getDefault()).set(CurrencyStyle.SYMBOL).build());
-		double doubleValueExact = format.parse(valor).getNumber().doubleValueExact();
-		MonetaryAmount amount = Monetary.getDefaultAmountFactory().setCurrency("BRL").setNumber(doubleValueExact)
-				.create();
+//		MonetaryAmountFormat format = MonetaryFormats
+//				.getAmountFormat(AmountFormatQueryBuilder.of(Locale.getDefault()).set(CurrencyStyle.SYMBOL).build());
+//		double doubleValueExact = format.parse(valor).getNumber().doubleValueExact();
+//		MonetaryAmount amount = Monetary.getDefaultAmountFactory().setCurrency("BRL").setNumber(doubleValueExact)
+//				.create();
 
-		return amount;
+		return new BigDecimal(valor);
 
 	}
 
-	public MonetaryAmount toMoney(Double valor) {
-		return Monetary.getDefaultAmountFactory().setCurrency("BRL").setNumber(valor).create();
+	public BigDecimal toMoney(Double valor) {
+		return new BigDecimal(valor);
 	}
 
-	public String toString(MonetaryAmount money) {
-		MonetaryAmountFormat format = MonetaryFormats
-				.getAmountFormat(AmountFormatQueryBuilder.of(Locale.getDefault()).set(CurrencyStyle.SYMBOL).build());
-		return format.format(money);
+	public String toString(BigDecimal money) {
+		return money.toString();
 	}
 
-	public Double toDouble(MonetaryAmount money) {
-		return money.getNumber().doubleValueExact();
+	public Double toDouble(BigDecimal money) {
+		return money.doubleValue();
 	}
 
 }

@@ -1,8 +1,10 @@
 package br.com.slv.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,10 +22,12 @@ public class Pessoa implements Serializable {
 	private String cpf;
 	private String nome;
 	private String endereco;
-	private String telefone;
+	
+	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL )
+	private List<Telefone> telefones = new ArrayList<Telefone>();
 
 	@OneToMany(mappedBy = "pessoa")
-	private List<Locacao> locacoes;
+	private List<Locacao> locacoes = new ArrayList<Locacao>();
 
 	public Long getId() {
 		return id;
@@ -56,13 +60,13 @@ public class Pessoa implements Serializable {
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
 	}
-
-	public String getTelefone() {
-		return telefone;
+	
+	public List<Telefone> getTelefones() {
+		return telefones;
 	}
 
-	public void setTelefone(String telefone) {
-		this.telefone = telefone;
+	public void setTelefones(List<Telefone> telefones) {
+		this.telefones = telefones;
 	}
 
 	public List<Locacao> getLocacoes() {

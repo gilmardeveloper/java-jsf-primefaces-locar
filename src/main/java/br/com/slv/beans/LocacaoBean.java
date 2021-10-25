@@ -1,6 +1,7 @@
 package br.com.slv.beans;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.Period;
@@ -9,7 +10,6 @@ import java.util.List;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.money.MonetaryAmount;
 
 import br.com.slv.annotations.Transactional;
 import br.com.slv.models.Locacao;
@@ -49,8 +49,8 @@ public class LocacaoBean implements Serializable {
 		int days = Period.between(saida, retorno).getDays();
 		long hours = Duration.ofDays(days).toHours();
 
-		MonetaryAmount valorHora = locacao.getVeiculo().getValorHora();
-		MonetaryAmount valor = valorHora.multiply(hours);
+		BigDecimal valorHora = locacao.getVeiculo().getValorHora();
+		BigDecimal valor = valorHora.multiply(new BigDecimal(hours));
 
 		locacao.setValor(valor);
 		locacao.setDataSaida(saida);

@@ -1,9 +1,9 @@
 package br.com.slv.models;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import javax.money.MonetaryAmount;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,7 +21,7 @@ public class Locacao implements Serializable {
 
 	private LocalDate dataSaida;
 	private LocalDate dataRetorno;
-	private MonetaryAmount valor;
+	private BigDecimal valor;
 
 	@OneToOne
 	private Veiculo veiculo;
@@ -53,11 +53,11 @@ public class Locacao implements Serializable {
 		this.dataRetorno = dataRetorno;
 	}
 
-	public MonetaryAmount getValor() {
+	public BigDecimal getValor() {
 		return valor;
 	}
 
-	public void setValor(MonetaryAmount valor) {
+	public void setValor(BigDecimal valor) {
 		this.valor = valor;
 	}
 

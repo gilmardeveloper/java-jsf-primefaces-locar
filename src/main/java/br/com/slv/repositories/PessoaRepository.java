@@ -40,7 +40,7 @@ public class PessoaRepository implements Serializable {
 	}
 
 	public List<Pessoa> findAll() {
-		TypedQuery<Pessoa> query = entity.createQuery("select p from Pessoa p", Pessoa.class);
+		TypedQuery<Pessoa> query = entity.createQuery("select distinct p from Pessoa p join fetch p.telefones", Pessoa.class);
 		return query.getResultList();
 	}
 

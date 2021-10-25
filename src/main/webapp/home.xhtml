@@ -86,7 +86,7 @@
 		</p:fieldset>
 
 		<p:dialog header="Cliente" widgetVar="modalAlterar" modal="true"
-			height="200" width="400">
+			height="400" width="600">
 
 			<h:form id="form-modal">
 				<h:panelGrid columns="2" columnClasses="label, value">
@@ -96,16 +96,47 @@
 					<p:outputLabel value="CPF:" for="cpf" />
 					<p:inputText id="cpf" value="#{pessoaBean.pessoa.cpf}" />
 
-					<p:outputLabel value="Telefone:" for="telefone" />
-					<p:inputText id="telefone" value="#{pessoaBean.pessoa.telefone}" />
-
 					<p:outputLabel value="Endereço:" for="endereco" />
 					<p:inputText id="endereco" value="#{pessoaBean.pessoa.endereco}" />
+
+					<p:outputLabel value="Telefone:" for="telefone" />
+
+					<p:fieldset>
+						<p:inputText id="telefone" value="#{pessoaBean.telefone.numero}" />
+						<p:commandButton value="adicionar"
+							action="#{pessoaBean.addTelefone}">
+							<f:ajax execute="telefone" immediate="true"
+								render="form-modal:telefones-cliente" />
+						</p:commandButton>
+
+					</p:fieldset>
 
 					<p:commandButton value="Salvar" id="btn-salvar"
 						styleClass="ui-priority-primary" action="#{pessoaBean.salvar}"
 						update="@form" process="@form" />
 				</h:panelGrid>
+
+				<p:dataTable id="telefones-cliente" var="telefone"
+					value="#{pessoaBean.pessoa.telefones}">
+
+					<p:column headerText="Telefones">
+						<h:outputText value="#{telefone.numero}" />
+					</p:column>
+
+				</p:dataTable>
+
+				<p:dataTable id="telefones-cliente-action" var="pessoa" 
+					value="#{pessoaBean.pessoa}">
+
+					<p:column >
+						<p:commandButton id="btnTelefones" value="Telefones"
+							icon="fa fa-pencil" actionListener="#{pessoaBean.update(pessoa)}"
+							onclick="PF('modalTelefones').show();"
+							update="form-modal-telefones" process="@this" />
+					</p:column>
+
+				</p:dataTable>
+
 			</h:form>
 		</p:dialog>
 
@@ -132,6 +163,36 @@
 				</h:panelGrid>
 			</h:form>
 		</p:dialog>
+
+
+		<p:dialog header="Alterar telefones" widgetVar="modalTelefones"
+			modal="true" height="200" width="400">
+
+			<h:form id="form-modal-telefones">
+				<h:panelGrid columns="2" columnClasses="label, value">
+
+					<p:outputLabel value="Cliente:" for="pessoaTelefone" />
+					<p:selectOneMenu id="pessoaTelefone" value="#{pessoaBean.pessoa}" converter="pessoaConverter">
+						<f:selectItems value="#{pessoaBean.pessoas}" var="pessoa"
+							itemLabel="#{pessoa.nome}" itemValue="#{pessoa}" />
+						<f:ajax event="change" execute="pessoaTelefone" render="telefones" />
+					</p:selectOneMenu>
+
+					<p:outputLabel value="Telefones:" for="telefones" />
+					<p:selectOneMenu value="#{pessoaBean.telefone}" id="telefones" converter="telefoneConverter">
+						<f:selectItems value="#{pessoaBean.pessoa.telefones}"
+							var="telefone" itemLabel="#{telefone.numero}"
+							itemValue="#{telefone}" />
+					</p:selectOneMenu>
+
+					<p:commandButton value="Ver telefone" id="btn-salvar"
+						styleClass="ui-priority-primary" action="#{pessoaBean.telefoneSelecionado}"
+						update="@form" process="@form" />
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+
+
 
 
 	</ui:define>
